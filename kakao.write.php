@@ -1,28 +1,52 @@
 <?php
-	/*
-		이 주석은 영국에서 최초로 시작되어 일년에 한 바퀴 돌면서 받는 사람에게 행운을 주었고 지금은 당신에게로 옮겨진 이 편지는 4일 안에 당신 곁을 떠나야 합니다. 이 편지를 포함해서 7통을 행운이 필요한 사람에게 보내 주셔야 합니다. 복사를 해도 좋습니다. 혹 미신이라 하실지 모르지만 사실입니다. 영국에서 null 이라는 사람은 1930년에 이 편지를 받았습니다. 그는 비서에게 복사해서 커밋하라고 했습니다. 며칠 뒤에 복권이 당첨되어 20억을 받았습니다. 어떤 이는 이 주석을 보았으나 96시간 이내 자신의 손에서 떠나야 한다는 사실을 잊었습니다. 그는 곧 사직되었습니다. 나중에야 이 사실을 알고 7번의 주석을 달았는데 다시 좋은 직장을 얻었습니다. 미국의 케네디 대통령은 이 주석을 보았지만 그냥 버렸습니다. 결국 9일 후 그는 암살 당했습니다. 기억해 주세요. 이 주석을 달면 7년의 행운이 있을 것이고 그렇지 않으면 3년의 불행이 있을 것입니다. 그리고 이 주석을 버리거나 낙서를 해서는 절대로 안됩니다. 7번입니다. 이 주석을 받은 사람은 행운이 깃들 것입니다. 힘들겠지만 좋은게 좋다고 생각하세요. 7년의 행운을 빌면서..
-	*/
 	require_once ("kakao.config.php"); // 기본 설정 불러오기
-
+	require_once ("kakao.content.php"); // 작성 컨텐츠 사전 저장
+	require_once ("kakao.login.php"); // 기본 로그인 세션 저장
+	require_once ("kakao.permission.php") // 기본 게시물 권한 
+	// require_once ("kakao.get_comment.php") // 댓글 가져오기
+	// require_once ("kakao.get_lib_comment.php") // 댓글 데이터 불러오기
+	// require_once ("kakao.get_charater.php") // 캐릭터 설정
+	
+	
+	/* 기본 사용 함수 
+	
+	permission + 권한설정 및 공유 설정
+	* ALL = 전체 가능
+	* ALL_Share = 전체공개, 공유 불가능
+	* Friend = 친구 공개, 친구만 공유가능
+	* Freiend_sahre = 친구공개, 공유 불가능
+	* Me = 나만 공개
+	
+	 기타 콘텐츠 사용 함수 
+	content + 일반적 게시글 컨텐츠
+	
+	*content_comment 댓글 푸시 컨텐츠
+	*content_comment_allow 댓글 수신 컨텐츠
+	*content_comment_send 댓글 전송
+	
+	
+	*/
+	
+	
 	$token = $_SESSION['token'];
 	$refresh_token = $_SESSION['refresh_token'];
 
 	$i = 1;
 
-	ini_set('max_execution_time', 0);
-
-	while ($i < 2) {
+	ini_set('max_execution_time', 0); // 실행시간 설정
+	
+	while ($i < 100) {
 		$rand_num = rand(1,10); // 1부터 10중 랜덤으로 생성
-		switch($rand_num) {
+		switch($rand_num) { // 랜덤한 케이스로 이동 
 			case "1" :
-				$params = sprintf( 'content=첫번째 스토리&permission=F&enable_share=false'); 
+				$params = sprintf( 'content=1&permission=F&enable_share={$share}'); 
 				$opts = array( 
 				CURLOPT_HTTPHEADER => array(
 					"Authorization: Bearer {$token}"
 				),
 				CURLOPT_URL => "https://kapi.kakao.com/v1/api/story/post/note", 
-				CURLOPT_SSL_VERIFYPEER => false, 
-					CURLOPT_SSLVERSION => 1,
+				CURLOPT_SSL_VERIFYPEER => false,  // 만약 등록에 실패할 경우  SSL로 연결한다.
+					CURLOPT_SSLVERSION => 1, // 
 				CURLOPT_POST => true, 
 				CURLOPT_POSTFIELDS => $params, 
 				CURLOPT_RETURNTRANSFER => true, 
@@ -195,6 +219,6 @@
 				curl_close($curl);
 				break;
 		}
-		sleep(600);
+		sleep(600); // 케이스를 실행하고 대기하는 시간, ( 초단위로 입력 )
 	}
 ?>
