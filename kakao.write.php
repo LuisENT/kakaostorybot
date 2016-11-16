@@ -3,10 +3,7 @@
 	require_once ("kakao.content.php"); // 작성 컨텐츠 사전 저장
 	require_once ("kakao.login.php"); // 기본 로그인 세션 저장
 	require_once ("kakao.permission.php") // 기본 게시물 권한 
-	// require_once ("kakao.get_comment.php") // 댓글 가져오기
-	// require_once ("kakao.get_lib_comment.php") // 댓글 데이터 불러오기
-	// require_once ("kakao.get_charater.php") // 캐릭터 설정
-	
+	require_once ("ai_data.config.php") // AI데 설	
 	
 	/* 기본 사용 함수 
 	
